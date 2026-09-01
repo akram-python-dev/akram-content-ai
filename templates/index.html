@@ -211,9 +211,8 @@
         </div>
         <div class="result-text" id="resultText"></div>
         
-        <!-- الأزرار التفاعلية الحقيقية للاتصال والتواصل -->
+        <!-- الأزرار التفاعلية الحقيقية للاتصال والتواصل مرتبطة برقمك السوري مباشرة -->
         <div class="action-buttons-container" id="actionButtons">
-            <!-- يرجى استبدال YOUR_PHONE_NUMBER برقم الواتساب الخاص بك لاحقاً شامل مفتاح الدوله وبدون أصفار أو علامة زائد -->
             <a href="https://wa.me" target="_blank" class="btn-action btn-whatsapp">
                 💬 تواصل معنا مباشرة عبر واتساب وابدأ رحلة الصدارة
             </a>
@@ -286,4 +285,10 @@
     function copyText() {
         const text = document.getElementById('resultText').innerText;
         navigator.clipboard.writeText(text).then(() => {
-                
+            alert('تم نسخ النص بنجاح إلى الحافظة! 🎉');
+        });
+    }
+</script>
+
+</body>
+</html>
