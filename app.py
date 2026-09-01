@@ -16,7 +16,6 @@ def home():
 @app.route('/generate', methods=['POST'])
 def generate_content():
     try:
-        # تأمين استقبال البيانات حتى لو كانت بعض الحقول غائبة أو فارغة
         data = request.get_json(silent=True) or {}
         user_idea = data.get('idea', '')
         user_link = data.get('userLink', '')
@@ -50,19 +49,14 @@ def generate_content():
         6. اجعل الرد وافياً، مفصلاً، ومبتكراً بالكامل ليقدم قيمة حقيقية تدفع العميل للاستفادة والربح منها.
         """
 
-        def generate_stream():
-            try:
-                response_stream = client.models.generate_content_stream(
-                    model='gemini-3.6-flash',
-                    contents=prompt,
-                )
-                for chunk in response_stream:
-                    if chunk.text:
-                        yield chunk.text
-            except Exception as e:
-                yield f"error: {str(e)}"
-
-        return Response(generate_stream(), mimetype='text/plain')
+        # تعديل لطلب النص كاملاً دفعة واحدة لإلغاء البطء والملل
+        response = client.models.generate_content(
+            model='gemini-3.6-flash',
+            contents=prompt,
+        )
+        
+        generated_text = response.text if response.text else "لم يتمكن الذكاء الاصطناعي من إنشاء نص، حاول مجدداً."
+        return Response(generated_text, mimetype='text/plain')
 
     except Exception as e:
         return jsonify({'status': 'error', 'message': f'حدث خطأ في معالجة الذكاء الاصطناعي: {str(e)}'}), 500
