@@ -234,28 +234,20 @@
                 throw new Error('فشل الاتصال بخادم التوليد');
             }
 
+            // قراءة النص بالكامل دفعة واحدة وبسرعة فائقة دون تقطيع مُمِل
+            const fullText = await response.text();
+            
             resultBox.style.display = 'block';
             resultBox.scrollIntoView({ behavior: 'smooth' });
 
-            const reader = response.body.getReader();
-            const decoder = new TextDecoder();
-            let fullText = '';
-            
-            while (true) {
-                const { value, done } = await reader.read();
-                if (done) break;
-                
-                const chunk = decoder.decode(value, { stream: true });
-                fullText += chunk;
-                
-                if (fullText.includes('[SHOW_CONTACT_BUTTON]')) {
-                    let cleanedText = fullText.replace('[SHOW_CONTACT_BUTTON]', '');
-                    resultText.innerText = cleanedText;
-                    actionButtons.style.display = 'flex';
-                } else {
-                    resultText.innerText = fullText;
-                }
+            if (fullText.includes('[SHOW_CONTACT_BUTTON]')) {
+                let cleanedText = fullText.replace('[SHOW_CONTACT_BUTTON]', '');
+                resultText.innerText = cleanedText;
+                actionButtons.style.display = 'flex';
+            } else {
+                resultText.innerText = fullText;
             }
+            
         } catch (error) {
             alert('حدث خطأ في الاتصال بالسيرفر المباشر أو انتهت مهلة الجلسة!');
         } finally {
@@ -273,5 +265,4 @@
 </script>
 
 </body>
-            </html>
-            
+</html>
