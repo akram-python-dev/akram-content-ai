@@ -176,6 +176,8 @@
 
         btn.innerText = 'جاري التفكير والتوليد... ⏳';
         btn.disabled = true;
+        resultText.innerText = '';
+        resultBox.style.display = 'none';
 
         try {
             const response = await fetch('/generate', {
@@ -183,17 +185,36 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ idea, type, tone })
             });
-            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error('فشل الاتصال بخادم التوليد');
+            }
+
+            resultBox.style.display = 'block';
+            resultBox.scrollIntoView({ behavior: 'smooth' });
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
             
-            if (data.status === 'success') {
-                resultText.innerText = data.content;
-                resultBox.style.display = 'block';
-                resultBox.scrollIntoView({ behavior: 'smooth' });
-            } else {
-                alert('خطأ: ' + data.message);
+            while (true) {
+                const { value, done } = await reader.read();
+                if (done) break;
+                
+                const chunk = decoder.decode(value, { stream: true });
+                try {
+                    const parsed = JSON.parse(chunk);
+                    if (parsed.status === 'success') {
+                        resultText.innerText = parsed.content;
+                    } else {
+                        alert('خطأ: ' + parsed.message);
+                    }
+                } catch (e) {
+                    // معالجة تدفق النص المباشر
+                    resultText.innerText += chunk;
+                }
             }
         } catch (error) {
-            alert('حدث خطأ في الاتصال بالسيرفر المباشر!');
+            alert('حدث خطأ في الاتصال بالسيرفر المباشر أو انتهت مهلة الجلسة!');
         } finally {
             btn.innerText = 'توليد المحتوى الذكي 🚀';
             btn.disabled = false;
