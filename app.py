@@ -1,6 +1,7 @@
 import os
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, Response, jsonify
 from google import genai
+import json
 
 app = Flask(__name__)
 
@@ -37,17 +38,26 @@ def generate_content():
         3. اجعل الرد وافياً، مفصلاً، ومبتكراً بالكامل ليقدم قيمة حقيقية تدفع العميل للاستفادة والربح منها.
         """
 
-        # استدعاء أحدث نماذج جوجل السريعة لتوليد الرد الحي
-        response = client.models.generate_content(
-            model='gemini-3.6-flash',
-            contents=prompt,
-        )
-        
-        return jsonify({'status': 'success', 'content': response.text})
+        # استخدام البث المباشر (Stream) لتفادي انقطاع الاتصال (Timeout) في سيرفر Render المجاني
+        def generate_stream():
+            response_stream = client.models.generate_content_stream(
+                model='gemini-2.5-flash',
+                contents=prompt,
+            )
+            full_text = ""
+            for chunk in response_stream:
+                if chunk.text:
+                    full_text += chunk.text
+            
+            # إرسال النتيجة النهائية بتنسيق JSON متوافق مع واجهتك الحالية
+            yield json.dumps({'status': 'success', 'content': full_text})
+
+        return Response(generate_stream(), mimetype='application/json')
 
     except Exception as e:
         return jsonify({'status': 'error', 'message': f'حدث خطأ في معالجة الذكاء الاصطناعي: {str(e)}'}), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+    
   
