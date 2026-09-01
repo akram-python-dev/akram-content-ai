@@ -106,7 +106,6 @@
             border-radius: 12px;
             display: none;
             border: 1px solid #ffe4e1;
-            border-right: 4px solid #ff4081;
         }
         .result-header {
             display: flex;
@@ -182,6 +181,12 @@
         <textarea id="idea" rows="3" placeholder="مثال: متجر لبيع الورود الطازجة والهدايا المخصصة..."></textarea>
     </div>
 
+    <!-- ميزة فكرتك الذكية: حقل لإدخال رابط المتجر لتضمينه في النص -->
+    <div class="form-group">
+        <label for="userLink">رابط متجرك أو صفحة التواصل الخاصة بك (اختياري) 🔗:</label>
+        <input type="text" id="userLink" placeholder="مثال: حسابك على انستغرام أو رقم واتساب...">
+    </div>
+
     <div class="form-group">
         <label for="type">نوع المحتوى المطلـوب 🏷️:</label>
         <select id="type">
@@ -211,9 +216,9 @@
         </div>
         <div class="result-text" id="resultText"></div>
         
-        <!-- الأزرار التفاعلية الحقيقية للاتصال والتواصل مرتبطة برقمك السوري مباشرة -->
+        <!-- حل مشكلة الواتساب بالرابط الرسمي المعتمدapi.whatsapp.com والرسالة التلقائية المباشرة -->
         <div class="action-buttons-container" id="actionButtons">
-            <a href="https://wa.me" target="_blank" class="btn-action btn-whatsapp">
+            <a href="https://whatsapp.com" target="_blank" class="btn-action btn-whatsapp">
                 💬 تواصل معنا مباشرة عبر واتساب وابدأ رحلة الصدارة
             </a>
         </div>
@@ -223,6 +228,7 @@
 <script>
     async function generateContent() {
         const idea = document.getElementById('idea').value;
+        const userLink = document.getElementById('userLink').value;
         const type = document.getElementById('type').value;
         const tone = document.getElementById('tone').value;
         const btn = document.querySelector('.btn-generate');
@@ -245,7 +251,7 @@
             const response = await fetch('/generate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ idea, type, tone })
+                body: JSON.stringify({ idea, userLink, type, tone })
             });
 
             if (!response.ok) {
@@ -267,28 +273,4 @@
                 fullText += chunk;
                 
                 if (fullText.includes('[SHOW_CONTACT_BUTTON]')) {
-                    let cleanedText = fullText.replace('[SHOW_CONTACT_BUTTON]', '');
-                    resultText.innerText = cleanedText;
-                    actionButtons.style.display = 'flex';
-                } else {
-                    resultText.innerText = fullText;
-                }
-            }
-        } catch (error) {
-            alert('حدث خطأ في الاتصال بالسيرفر المباشر أو انتهت مهلة الجلسة!');
-        } finally {
-            btn.innerText = 'توليد المحتوى الذكي الوردي 🚀';
-            btn.disabled = false;
-        }
-    }
-
-    function copyText() {
-        const text = document.getElementById('resultText').innerText;
-        navigator.clipboard.writeText(text).then(() => {
-            alert('تم نسخ النص بنجاح إلى الحافظة! 🎉');
-        });
-    }
-</script>
-
-</body>
-</html>
+    
