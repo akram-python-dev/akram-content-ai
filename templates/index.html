@@ -4,146 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AkramFlow AI | منصة توليد المحتوى الاحترافي</title>
-    <!-- ربط خط كايرو المميز والمحترف -->
     <link href="https://googleapis.com" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Cairo', sans-serif;
-        }
-        body {
-            background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 100%);
-            color: #4a3b40;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .app-container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 24px;
-            box-shadow: 0 12px 32px rgba(255, 182, 193, 0.3);
-            width: 100%;
-            max-width: 500px;
-            border: 2px solid #ffb6c1;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-        .header h1 {
-            color: #d81b60;
-            font-size: 28px;
-            font-weight: 700;
-        }
-        .header p {
-            color: #886f77;
-            font-size: 14px;
-            margin-top: 8px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            font-size: 14px;
-            color: #880e4f;
-        }
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ffccd5;
-            border-radius: 12px;
-            font-size: 15px;
-            background: #fffafb;
-            outline: none;
-            transition: 0.3s;
-            color: #4a3b40;
-        }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            border-color: #d81b60;
-            background: #fff;
-            box-shadow: 0 0 8px rgba(216, 27, 96, 0.2);
-        }
-        .btn-generate {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(90deg, #ff4081 0%, #d81b60 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 4px 12px rgba(216, 27, 96, 0.3);
-        }
-        .btn-generate:hover {
-            background: linear-gradient(90deg, #d81b60 0%, #ad1457 100%);
-        }
-        .result-box {
-            margin-top: 25px;
-            padding: 20px;
-            background: #fffafb;
-            border-radius: 12px;
-            display: none;
-            border: 1px solid #ffe4e1;
-            border-right: 4px solid #ff4081;
-        }
-        .result-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .result-title {
-            font-weight: 700;
-            color: #d81b60;
-        }
-        .btn-copy {
-            padding: 6px 14px;
-            background: #ad1457;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 12px;
-            cursor: pointer;
-        }
-        .result-text {
-            white-space: pre-line;
-            line-height: 1.8;
-            font-size: 15px;
-            color: #4a3b40;
-        }
-        .action-buttons-container {
-            margin-top: 20px;
-            display: none;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .btn-action {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            width: 100%;
-            padding: 12px;
-            color: white;
-            text-decoration: none;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 15px;
-            transition: 0.3s;
-        }
-        .btn-whatsapp {
-            background-color: #25D366;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+        body { background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 100%); color: #4a3b40; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .app-container { background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 24px; box-shadow: 0 12px 32px rgba(255, 182, 193, 0.3); width: 100%; max-width: 500px; border: 2px solid #ffb6c1; }
+        .header { text-align: center; margin-bottom: 25px; }
+        .header h1 { color: #d81b60; font-size: 28px; font-weight: 700; }
+        .header p { color: #886f77; font-size: 14px; margin-top: 8px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; color: #880e4f; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ffccd5; border-radius: 12px; font-size: 15px; background: #fffafb; outline: none; transition: 0.3s; color: #4a3b40; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #d81b60; background: #fff; box-shadow: 0 0 8px rgba(216, 27, 96, 0.2); }
+        .btn-generate { width: 100%; padding: 14px; background: linear-gradient(90deg, #ff4081 0%, #d81b60 100%); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 12px rgba(216, 27, 96, 0.3); }
+        .btn-generate:hover { background: linear-gradient(90deg, #d81b60 0%, #ad1457 100%); }
+        .result-box { margin-top: 25px; padding: 20px; background: #fffafb; border-radius: 12px; display: none; border: 1px solid #ffe4e1; border-right: 4px solid #ff4081; }
+        .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .result-title { font-weight: 700; color: #d81b60; }
+        .btn-copy { padding: 6px 14px; background: #ad1457; color: white; border: none; border-radius: 6px; font-size: 12px; cursor: pointer; }
+        .result-text { white-space: pre-line; line-height: 1.8; font-size: 15px; color: #4a3b40; }
+        .action-buttons-container { margin-top: 20px; display: none; flex-direction: column; gap: 10px; }
+        .btn-action { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; color: white; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 15px; transition: 0.3s; }
+        .btn-whatsapp { background-color: #25D366; }
     </style>
 </head>
 <body>
@@ -165,8 +47,13 @@
     </div>
 
     <div class="form-group">
-        <label for="type">نوع المحتوى المطلـوب 🏷️:</label>
-        <select id="type">
+        <label type="type" style="display:none;"></label>
+        <select id="type" style="display:none;"><option value="منشورات تسويقية للفيسبوك وانستغرام" selected></option></select>
+    </div>
+
+    <div class="form-group">
+        <label for="contentType">نوع المحتوى المطلـوب 🏷️:</label>
+        <select id="contentType">
             <option value="خطة عمل تسويقية متكاملة">خطة عمل تسويقية متكاملة</option>
             <option value="مقال طويل احترافي">مقال طويل احترافي</option>
             <option value="سيناريو فيديو إعلاني">سيناريو فيديو إعلاني لمواقع التواصل</option>
@@ -205,7 +92,7 @@
     async function generateContent() {
         const idea = document.getElementById('idea').value;
         const userLink = document.getElementById('userLink').value;
-        const type = document.getElementById('type').value;
+        const type = document.getElementById('contentType').value;
         const tone = document.getElementById('tone').value;
         const btn = document.querySelector('.btn-generate');
         const resultBox = document.getElementById('resultBox');
@@ -230,26 +117,32 @@
                 body: JSON.stringify({ idea, userLink, type, tone })
             });
 
-            if (!response.ok) {
-                throw new Error('فشل الاتصال بخادم التوليد');
-            }
+            if (!response.ok) { throw new Error('فشل الاتصال'); }
 
-            // قراءة النص بالكامل دفعة واحدة وبسرعة فائقة دون تقطيع مُمِل
-            const fullText = await response.text();
-            
             resultBox.style.display = 'block';
             resultBox.scrollIntoView({ behavior: 'smooth' });
 
-            if (fullText.includes('[SHOW_CONTACT_BUTTON]')) {
-                let cleanedText = fullText.replace('[SHOW_CONTACT_BUTTON]', '');
-                resultText.innerText = cleanedText;
-                actionButtons.style.display = 'flex';
-            } else {
-                resultText.innerText = fullText;
-            }
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let currentText = '';
             
+            while (true) {
+                const { value, done } = await reader.read();
+                if (done) break;
+                
+                const chunk = decoder.decode(value, { stream: true });
+                currentText += chunk;
+                
+                if (currentText.includes('[SHOW_CONTACT_BUTTON]')) {
+                    let cleaned = currentText.replace('[SHOW_CONTACT_BUTTON]', '');
+                    resultText.innerText = cleaned;
+                    actionButtons.style.display = 'flex';
+                } else {
+                    resultText.innerText = currentText;
+                }
+            }
         } catch (error) {
-            alert('حدث خطأ في الاتصال بالسيرفر المباشر أو انتهت مهلة الجلسة!');
+            alert('حدث خطأ في الاتصال، يرجى المحاولة مجدداً!');
         } finally {
             btn.innerText = 'توليد المحتوى الذكي الوردي 🚀';
             btn.disabled = false;
@@ -259,10 +152,9 @@
     function copyText() {
         const text = document.getElementById('resultText').innerText;
         navigator.clipboard.writeText(text).then(() => {
-            alert('تم نسخ النص بنجاح إلى الحافظة! 🎉');
+            alert('تم نسخ النص بنجاح! 🎉');
         });
     }
 </script>
-
 </body>
 </html>
