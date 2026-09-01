@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ذكاء أكرم | منصة توليد المحتوى الاحترافي</title>
+    <!-- ربط خط كايرو المميز والمحترف -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .app-container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 500px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .header h1 {
+            color: #1a73e8;
+            font-size: 26px;
+            font-weight: 700;
+        }
+        .header p {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            background: #fafafa;
+            outline: none;
+            transition: 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: #1a73e8;
+            background: #fff;
+        }
+        .btn-generate {
+            width: 100%;
+            padding: 14px;
+            background: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-generate:hover {
+            background: #155cb4;
+        }
+        .result-box {
+            margin-top: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-right: 4px solid #1a73e8;
+            border-radius: 8px;
+            display: none;
+        }
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .result-title {
+            font-weight: 700;
+            color: #1a73e8;
+        }
+        .btn-copy {
+            padding: 6px 12px;
+            background: #34a853;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .result-text {
+            white-space: pre-line;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="header">
+        <h1>✨ ذكاء أكرم | Akram AI</h1>
+        <p>حوّل أفكارك البسيطة إلى محتوى تجاري احترافي يجني لك المال</p>
+    </div>
+
+    <div class="form-group">
+        <label for="idea">اكتب فكرتك هنا باختصار:</label>
+        <textarea id="idea" rows="3" placeholder="مثال: تطبيق لتوصيل الطعام للأشخاص المشغولين..."></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="type">نوع المحتوى المطلـوب:</label>
+        <select id="type">
+            <option value="خطة عمل تسويقية متكاملة">خطة عمل تسويقية متكاملة</option>
+            <option value="مقال طويل احترافي">مقال طويل احترافي</option>
+            <option value="سيناريو فيديو إعلاني">سيناريو فيديو إعلاني لمواقع التواصل</option>
+            <option value="منشورات تسويقية للفيسبوك وانستغرام">منشورات تسويقية جذابة</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="tone">نبرة وأسلوب الكتابة:</label>
+        <select id="tone">
+            <option value="إقناعي واحترافي">إقناعي واحترافي للبيع</option>
+            <option value="إبداعي وحماسي">إبداعي وحماسي للشباب</option>
+            <option value="رسمي وجاد">رسمي وجاد للشركات</option>
+            <option value="فكاهي وقريب من القلب">فكاهي وقريب من الناس</option>
+        </select>
+    </div>
+
+    <button class="btn-generate" onclick="generateContent()">توليد المحتوى الذكي 🚀</button>
+
+    <div class="result-box" id="resultBox">
+        <div class="result-header">
+            <span class="result-title">المحتوى الاحترافي المولد:</span>
+            <button class="btn-copy" onclick="copyText()">نسخ النص 📋</button>
+        </div>
+        <div class="result-text" id="resultText"></div>
+    </div>
+</div>
+
+<script>
+    async function generateContent() {
+        const idea = document.getElementById('idea').value;
+        const type = document.getElementById('type').value;
+        const tone = document.getElementById('tone').value;
+        const btn = document.querySelector('.btn-generate');
+        const resultBox = document.getElementById('resultBox');
+        const resultText = document.getElementById('resultText');
+
+        if (!idea) {
+            alert('الرجاء كتابة الفكرة أولاً يا صديقي!');
+            return;
+        }
+
+        btn.innerText = 'جاري التفكير والتوليد... ⏳';
+        btn.disabled = true;
+
+        try {
+            const response = await fetch('/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idea, type, tone })
+            });
+            const data = await response.json();
+            
+            if (data.status === 'success') {
+                resultText.innerText = data.content;
+                resultBox.style.display = 'block';
+                resultBox.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                alert('خطأ: ' + data.message);
+            }
+        } catch (error) {
+            alert('حدث خطأ في الاتصال بالسيرفر المباشر!');
+        } finally {
+            btn.innerText = 'توليد المحتوى الذكي 🚀';
+            btn.disabled = false;
+        }
+    }
+
+    function copyText() {
+        const text = document.getElementById('resultText').innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert('تم نسخ النص بنجاح إلى الحافظة! 🎉');
+        });
+    }
+</script>
+
+</body>
+</html>
