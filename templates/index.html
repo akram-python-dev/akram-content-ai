@@ -14,7 +14,6 @@
             font-family: 'Cairo', sans-serif;
         }
         body {
-            /* خلفية ناعمة بدرجات الزهري الفاتح والورود الهادئة */
             background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 100%);
             color: #4a3b40;
             padding: 20px;
@@ -27,7 +26,6 @@
             background: rgba(255, 255, 255, 0.95);
             padding: 30px;
             border-radius: 24px;
-            /* ظلال ناعمة وزهرية تعطي فخامة للمنصة */
             box-shadow: 0 12px 32px rgba(255, 182, 193, 0.3);
             width: 100%;
             max-width: 500px;
@@ -38,11 +36,9 @@
             margin-bottom: 25px;
         }
         .header h1 {
-            /* لون زهري غامق واحترافي للنصوص الرئيسية */
             color: #d81b60;
             font-size: 28px;
             font-weight: 700;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
         }
         .header p {
             color: #886f77;
@@ -78,7 +74,6 @@
         .btn-generate {
             width: 100%;
             padding: 14px;
-            /* زر زهري حماسي رائع */
             background: linear-gradient(90deg, #ff4081 0%, #d81b60 100%);
             color: white;
             border: none;
@@ -91,21 +86,15 @@
         }
         .btn-generate:hover {
             background: linear-gradient(90deg, #d81b60 0%, #ad1457 100%);
-            transform: translateY(-1px);
-        }
-        .btn-generate:disabled {
-            background: #e0b0bc;
-            box-shadow: none;
-            cursor: not-allowed;
         }
         .result-box {
             margin-top: 25px;
             padding: 20px;
             background: #fffafb;
-            border-right: 4px solid #ff4081;
             border-radius: 12px;
             display: none;
             border: 1px solid #ffe4e1;
+            border-right: 4px solid #ff4081;
         }
         .result-header {
             display: flex;
@@ -125,10 +114,6 @@
             border-radius: 6px;
             font-size: 12px;
             cursor: pointer;
-            transition: 0.3s;
-        }
-        .btn-copy:hover {
-            background: #880e4f;
         }
         .result-text {
             white-space: pre-line;
@@ -136,7 +121,6 @@
             font-size: 15px;
             color: #4a3b40;
         }
-        /* تصميم أزرار التواصل التفاعلية الملونة */
         .action-buttons-container {
             margin-top: 20px;
             display: none;
@@ -156,15 +140,9 @@
             font-weight: 600;
             font-size: 15px;
             transition: 0.3s;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
         .btn-whatsapp {
             background-color: #25D366;
-        }
-        .btn-whatsapp:hover {
-            background-color: #1ebd58;
-            transform: translateY(-1px);
         }
     </style>
 </head>
@@ -173,7 +151,7 @@
 <div class="app-container">
     <div class="header">
         <h1>🌸 AkramFlow AI</h1>
-        <p>حوّل أفكارك البسيطة إلى محتوى تجاري احترافي في عالم وردي ذكي سيعود عليك بالمال</p>
+        <p>حوّل أفكارك البسيطة إلى محتوى تجاري احترافي سيعود عليك بالمال</p>
     </div>
 
     <div class="form-group">
@@ -181,7 +159,6 @@
         <textarea id="idea" rows="3" placeholder="مثال: متجر لبيع الورود الطازجة والهدايا المخصصة..."></textarea>
     </div>
 
-    <!-- ميزة فكرتك الذكية: حقل لإدخال رابط المتجر لتضمينه في النص -->
     <div class="form-group">
         <label for="userLink">رابط متجرك أو صفحة التواصل الخاصة بك (اختياري) 🔗:</label>
         <input type="text" id="userLink" placeholder="مثال: حسابك على انستغرام أو رقم واتساب...">
@@ -216,7 +193,6 @@
         </div>
         <div class="result-text" id="resultText"></div>
         
-        <!-- حل مشكلة الواتساب بالرابط الرسمي المعتمدapi.whatsapp.com والرسالة التلقائية المباشرة -->
         <div class="action-buttons-container" id="actionButtons">
             <a href="https://whatsapp.com" target="_blank" class="btn-action btn-whatsapp">
                 💬 تواصل معنا مباشرة عبر واتساب وابدأ رحلة الصدارة
@@ -273,4 +249,29 @@
                 fullText += chunk;
                 
                 if (fullText.includes('[SHOW_CONTACT_BUTTON]')) {
-    
+                    let cleanedText = fullText.replace('[SHOW_CONTACT_BUTTON]', '');
+                    resultText.innerText = cleanedText;
+                    actionButtons.style.display = 'flex';
+                } else {
+                    resultText.innerText = fullText;
+                }
+            }
+        } catch (error) {
+            alert('حدث خطأ في الاتصال بالسيرفر المباشر أو انتهت مهلة الجلسة!');
+        } finally {
+            btn.innerText = 'توليد المحتوى الذكي الوردي 🚀';
+            btn.disabled = false;
+        }
+    }
+
+    function copyText() {
+        const text = document.getElementById('resultText').innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert('تم نسخ النص بنجاح إلى الحافظة! 🎉');
+        });
+    }
+</script>
+
+</body>
+            </html>
+            
