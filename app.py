@@ -28,7 +28,7 @@ def generate_content():
         # تضمين رابط تواصل زبونك بشكل خفيف وسريع جداً
         link_text = f"\nرابط التواصل: {user_link}" if user_link and user_link.strip() else ""
 
-        # برومبت مخفف وسريع جداً ليعود الموقع طلقة وخفيفاً كما كان في البداية
+        # برومبت مخفف وسريع جداً ليعود الموقع طلقة وخفيفاً كما كان في البداية وبأحدث موديل معتمد
         prompt = f"""
         اكتب منشور تسويقي سريع ومقنع وجذاب جداً باللغة العربية حول هذه الفكرة: {user_idea}.
         نوع المحتوى المطلوب: {content_type}
@@ -41,7 +41,7 @@ def generate_content():
         def generate_stream():
             try:
                 response_stream = client.models.generate_content_stream(
-                    model='gemini-2.0-flash',
+                    model='gemini-3.6-flash',
                     contents=prompt,
                 )
                 for chunk in response_stream:
