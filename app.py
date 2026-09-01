@@ -25,10 +25,10 @@ def generate_content():
         if not user_idea:
             return jsonify({'status': 'error', 'message': 'الرجاء كتابة الفكرة أولاً'}), 400
 
-        # صياغة رابط العميل بشكل خفيف ومباشر جداً لضمان السرعة
+        # صياغة رابط العميل بشكل خفيف ومباشر جداً لضمان السرعة الصاروخية
         link_text = f"\nرابط التواصل: {user_link}" if user_link and user_link.strip() else ""
 
-        # برومبت مخفف وسريع للغاية ليعود الموقع طلقة كما كان
+        # برومبت مخفف وسريع للغاية ليعود الموقع طلقة كما كان وبالموديل المعتمد 3.6
         prompt = f"""
         اكتب منشور تسويقي سريع ومقنع وجذاب جداً باللغة العربية حول هذه الفكرة: {user_idea}.
         نوع المحتوى المطلوب: {content_type}
@@ -41,7 +41,7 @@ def generate_content():
         def generate_stream():
             try:
                 response_stream = client.models.generate_content_stream(
-                    model='gemini-1.5-flash',
+                    model='gemini-3.6-flash',
                     contents=prompt,
                 )
                 for chunk in response_stream:
