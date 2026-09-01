@@ -38,21 +38,21 @@ def generate_content():
         3. اجعل الرد وافياً، مفصلاً، ومبتكراً بالكامل ليقدم قيمة حقيقية تدفع العميل للاستفادة والربح منها.
         """
 
-        # استخدام البث المباشر (Stream) لتفادي انقطاع الاتصال (Timeout) في سيرفر Render المجاني
         def generate_stream():
+        try:
             response_stream = client.models.generate_content_stream(
                 model='gemini-2.5-flash',
                 contents=prompt,
             )
-            full_text = ""
             for chunk in response_stream:
                 if chunk.text:
-                    full_text += chunk.text
-            
-            # إرسال النتيجة النهائية بتنسيق JSON متوافق مع واجهتك الحالية
-            yield json.dumps({'status': 'success', 'content': full_text})
+                    # إرسال النص مباشرة كلمة بكلمة دون انتظار
+                    yield chunk.text
+        except Exception as e:
+            yield f"Error: {str(e)}"
 
-        return Response(generate_stream(), mimetype='application/json')
+    return Response(generate_stream(), mimetype='text/plain')
+    
 
     except Exception as e:
         return jsonify({'status': 'error', 'message': f'حدث خطأ في معالجة الذكاء الاصطناعي: {str(e)}'}), 500
