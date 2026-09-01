@@ -14,8 +14,9 @@
             font-family: 'Cairo', sans-serif;
         }
         body {
-            background-color: #f4f7f6;
-            color: #333;
+            /* خلفية ناعمة بدرجات الزهري الفاتح والورود الهادئة */
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 100%);
+            color: #4a3b40;
             padding: 20px;
             display: flex;
             justify-content: center;
@@ -23,26 +24,30 @@
             min-height: 100vh;
         }
         .app-container {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.95);
             padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+            border-radius: 24px;
+            /* ظلال ناعمة وزهرية تعطي فخامة للمنصة */
+            box-shadow: 0 12px 32px rgba(255, 182, 193, 0.3);
             width: 100%;
             max-width: 500px;
+            border: 2px solid #ffb6c1;
         }
         .header {
             text-align: center;
             margin-bottom: 25px;
         }
         .header h1 {
-            color: #1a73e8;
-            font-size: 26px;
+            /* لون زهري غامق واحترافي للنصوص الرئيسية */
+            color: #d81b60;
+            font-size: 28px;
             font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
         }
         .header p {
-            color: #666;
+            color: #886f77;
             font-size: 14px;
-            margin-top: 5px;
+            margin-top: 8px;
         }
         .form-group {
             margin-bottom: 20px;
@@ -52,67 +57,115 @@
             margin-bottom: 8px;
             font-weight: 600;
             font-size: 14px;
+            color: #880e4f;
         }
         .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            border: 1px solid #ffccd5;
+            border-radius: 12px;
             font-size: 15px;
-            background: #fafafa;
+            background: #fffafb;
             outline: none;
             transition: 0.3s;
+            color: #4a3b40;
         }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            border-color: #1a73e8;
+            border-color: #d81b60;
             background: #fff;
+            box-shadow: 0 0 8px rgba(216, 27, 96, 0.2);
         }
         .btn-generate {
             width: 100%;
             padding: 14px;
-            background: #1a73e8;
+            /* زر زهري حماسي رائع */
+            background: linear-gradient(90deg, #ff4081 0%, #d81b60 100%);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(216, 27, 96, 0.3);
         }
         .btn-generate:hover {
-            background: #155cb4;
+            background: linear-gradient(90deg, #d81b60 0%, #ad1457 100%);
+            transform: translateY(-1px);
+        }
+        .btn-generate:disabled {
+            background: #e0b0bc;
+            box-shadow: none;
+            cursor: not-allowed;
         }
         .result-box {
             margin-top: 25px;
             padding: 20px;
-            background: #f8f9fa;
-            border-right: 4px solid #1a73e8;
-            border-radius: 8px;
+            background: #fffafb;
+            border-right: 4px solid #ff4081;
+            border-radius: 12px;
             display: none;
+            border: 1px solid #ffe4e1;
+            border-right: 4px solid #ff4081;
         }
         .result-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         .result-title {
             font-weight: 700;
-            color: #1a73e8;
+            color: #d81b60;
         }
         .btn-copy {
-            padding: 6px 12px;
-            background: #34a853;
+            padding: 6px 14px;
+            background: #ad1457;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 12px;
             cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-copy:hover {
+            background: #880e4f;
         }
         .result-text {
             white-space: pre-line;
-            line-height: 1.7;
+            line-height: 1.8;
             font-size: 15px;
+            color: #4a3b40;
+        }
+        /* تصميم أزرار التواصل التفاعلية الملونة */
+        .action-buttons-container {
+            margin-top: 20px;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .btn-action {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 12px;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: 0.3s;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .btn-whatsapp {
+            background-color: #25D366;
+        }
+        .btn-whatsapp:hover {
+            background-color: #1ebd58;
+            transform: translateY(-1px);
         }
     </style>
 </head>
@@ -120,17 +173,17 @@
 
 <div class="app-container">
     <div class="header">
-        <h1>✨ AkramFlow AI</h1>
-        <p>حوّل أفكارك البسيطة إلى محتوى تجاري احترافي يجني لك المال</p>
+        <h1>🌸 AkramFlow AI</h1>
+        <p>حوّل أفكارك البسيطة إلى محتوى تجاري احترافي في عالم وردي ذكي سيعود عليك بالمال</p>
     </div>
 
     <div class="form-group">
-        <label for="idea">اكتب فكرتك هنا باختصار:</label>
-        <textarea id="idea" rows="3" placeholder="مثال: تطبيق لتوصيل الطعام للأشخاص المشغولين..."></textarea>
+        <label for="idea">اكتب فكرتك هنا باختصار 📋:</label>
+        <textarea id="idea" rows="3" placeholder="مثال: متجر لبيع الورود الطازجة والهدايا المخصصة..."></textarea>
     </div>
 
     <div class="form-group">
-        <label for="type">نوع المحتوى المطلـوب:</label>
+        <label for="type">نوع المحتوى المطلـوب 🏷️:</label>
         <select id="type">
             <option value="خطة عمل تسويقية متكاملة">خطة عمل تسويقية متكاملة</option>
             <option value="مقال طويل احترافي">مقال طويل احترافي</option>
@@ -140,7 +193,7 @@
     </div>
 
     <div class="form-group">
-        <label for="tone">نبرة وأسلوب الكتابة:</label>
+        <label for="tone">نبرة وأسلوب الكتابة ✨:</label>
         <select id="tone">
             <option value="إقناعي واحترافي">إقناعي واحترافي للبيع</option>
             <option value="إبداعي وحماسي">إبداعي وحماسي للشباب</option>
@@ -149,14 +202,22 @@
         </select>
     </div>
 
-    <button class="btn-generate" onclick="generateContent()">توليد المحتوى الذكي 🚀</button>
+    <button class="btn-generate" onclick="generateContent()">توليد المحتوى الذكي الوردي 🚀</button>
 
     <div class="result-box" id="resultBox">
         <div class="result-header">
-            <span class="result-title">المحتوى الاحترافي المولد:</span>
+            <span class="result-title">المحتوى الاحترافي المولد ✨:</span>
             <button class="btn-copy" onclick="copyText()">نسخ النص 📋</button>
         </div>
         <div class="result-text" id="resultText"></div>
+        
+        <!-- الأزرار التفاعلية الحقيقية للاتصال والتواصل -->
+        <div class="action-buttons-container" id="actionButtons">
+            <!-- يرجى استبدال YOUR_PHONE_NUMBER برقم الواتساب الخاص بك لاحقاً شامل مفتاح الدوله وبدون أصفار أو علامة زائد -->
+            <a href="https://wa.me" target="_blank" class="btn-action btn-whatsapp">
+                💬 تواصل معنا مباشرة عبر واتساب وابدأ رحلة الصدارة
+            </a>
+        </div>
     </div>
 </div>
 
@@ -168,16 +229,18 @@
         const btn = document.querySelector('.btn-generate');
         const resultBox = document.getElementById('resultBox');
         const resultText = document.getElementById('resultText');
+        const actionButtons = document.getElementById('actionButtons');
 
         if (!idea) {
             alert('الرجاء كتابة الفكرة أولاً يا صديقي!');
             return;
         }
 
-        btn.innerText = 'جاري التفكير والتوليد... ⏳';
+        btn.innerText = 'جاري التفكير والتوليد الوردي... ⏳🌸';
         btn.disabled = true;
         resultText.innerText = '';
         resultBox.style.display = 'none';
+        actionButtons.style.display = 'none';
 
         try {
             const response = await fetch('/generate', {
@@ -195,19 +258,27 @@
 
             const reader = response.body.getReader();
             const decoder = new TextDecoder();
+            let fullText = '';
             
             while (true) {
                 const { value, done } = await reader.read();
                 if (done) break;
                 
                 const chunk = decoder.decode(value, { stream: true });
-                resultText.innerText += chunk;
+                fullText += chunk;
                 
+                if (fullText.includes('[SHOW_CONTACT_BUTTON]')) {
+                    let cleanedText = fullText.replace('[SHOW_CONTACT_BUTTON]', '');
+                    resultText.innerText = cleanedText;
+                    actionButtons.style.display = 'flex';
+                } else {
+                    resultText.innerText = fullText;
+                }
             }
         } catch (error) {
             alert('حدث خطأ في الاتصال بالسيرفر المباشر أو انتهت مهلة الجلسة!');
         } finally {
-            btn.innerText = 'توليد المحتوى الذكي 🚀';
+            btn.innerText = 'توليد المحتوى الذكي الوردي 🚀';
             btn.disabled = false;
         }
     }
@@ -215,10 +286,4 @@
     function copyText() {
         const text = document.getElementById('resultText').innerText;
         navigator.clipboard.writeText(text).then(() => {
-            alert('تم نسخ النص بنجاح إلى الحافظة! 🎉');
-        });
-    }
-</script>
-
-</body>
-</html>
+                
