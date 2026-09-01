@@ -5,7 +5,7 @@ import json
 
 app = Flask(__name__)
 
-# استخدام مفتاح الـ API الخاص بنا لمعالجة طلبات المستخدمين بشكل فوري
+# استخدام مفتاح الـ API الحقيقي المباشر والفعال لمعالجة الطلبات
 API_KEY = os.environ.get("GEMINI_API_KEY", "AIzaSyD-YOUR-FREE-INTEGRATION-KEY")
 client = genai.Client(api_key=API_KEY)
 
@@ -25,10 +25,10 @@ def generate_content():
         if not user_idea:
             return jsonify({'status': 'error', 'message': 'الرجاء كتابة الفكرة أولاً'}), 400
 
-        # صياغة رابط العميل بشكل خفيف ومباشر جداً لضمان السرعة الصاروخية
+        # تضمين رابط تواصل زبونك بشكل خفيف وسريع جداً
         link_text = f"\nرابط التواصل: {user_link}" if user_link and user_link.strip() else ""
 
-        # برومبت مخفف وسريع للغاية ليعود الموقع طلقة كما كان وبالموديل المعتمد 3.6
+        # برومبت مخفف وسريع جداً ليعود الموقع طلقة وخفيفاً كما كان في البداية
         prompt = f"""
         اكتب منشور تسويقي سريع ومقنع وجذاب جداً باللغة العربية حول هذه الفكرة: {user_idea}.
         نوع المحتوى المطلوب: {content_type}
@@ -41,7 +41,7 @@ def generate_content():
         def generate_stream():
             try:
                 response_stream = client.models.generate_content_stream(
-                    model='gemini-3.6-flash',
+                    model='gemini-2.0-flash',
                     contents=prompt,
                 )
                 for chunk in response_stream:
