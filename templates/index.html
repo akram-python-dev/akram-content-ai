@@ -8,13 +8,18 @@
         body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; text-align: center; }
         .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 600px; margin: 0 auto; }
         h1 { color: #800020; }
-        textarea { width: 100%; height: 100px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 16px; margin-bottom: 15px; }
-        select { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; }
-        button { width: 100%; padding: 12px; background-color: #800020; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; font-weight: bold; }
+        label { display: block; margin-top: 15px; font-weight: bold; color: #444; text-align: right; }
+        textarea, input[type="text"] { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 16px; margin-top: 5px; }
+        textarea { height: 100px; }
+        select { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; }
+        button { width: 100%; padding: 12px; background-color: #800020; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; font-weight: bold; margin-top: 20px; }
         .result-box { background: #fafafa; border: 1px dashed #ccc; padding: 15px; margin-top: 20px; border-radius: 5px; text-align: right; white-space: pre-wrap; display: none; }
-        .whatsapp-section { margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; text-align: center; font-weight: bold; }
-        .whatsapp-link { display: inline-block; background-color: #25D366; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none; margin-top: 5px; }
-        .logout-btn { display: inline-block; margin-top: 20px; color: #ff3333; text-decoration: none; font-weight: bold; }
+        .copy-btn { background-color: #007bff; color: white; margin-top: 15px; padding: 10px 20px; font-size: 15px; width: auto; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; display: inline-block; }
+        .copy-btn:hover { background-color: #0056b3; }
+        .whatsapp-section { margin-top: 25px; padding-top: 20px; border-top: 2px dashed #eee; text-align: center; font-weight: bold; }
+        .whatsapp-link { display: inline-block; background-color: #25D366; color: white; padding: 12px 25px; border-radius: 5px; text-decoration: none; margin-top: 8px; font-size: 16px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .whatsapp-link:hover { background-color: #1ed760; }
+        .logout-btn { display: inline-block; margin-top: 25px; color: #ff3333; text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -22,10 +27,13 @@
         <h1>AkramFlow AI 🌺</h1>
         <p>حوّل أفكارك البسيطة إلى محتوى تجاري احترافي سيعود عليك بالمال</p>
         
-        <label>اكتب فكرتك هنا باختصار 📋:</label>
+        <label>اكتب فكرتك التسويقية هنا باختصار 📋:</label>
         <textarea id="userIdea" placeholder="مثال: أدوية بشرية، مستحضرات تجميل..."></textarea>
         
-        <label>نوع المحتوى أو الفكرة التسويقية 📝:</label>
+        <label>رابط صفحتك أو متجرك (اختياري - لدمجه في الإعلان) 🔗:</label>
+        <input type="text" id="userLink" placeholder="مثال: ://fb.com أو رقم واتسابك...">
+
+        <label>نوع المحتوى المطلق 📝:</label>
         <select id="contentType">
             <option value="منشور إعلاني لوسائل التواصل">منشور إعلاني لوسائل التواصل</option>
             <option value="سيناريو فيديو قصير (Reel/TikTok)">سيناريو فيديو قصير (Reel/TikTok)</option>
@@ -40,9 +48,13 @@
             <option value="حماسي وجذاب">حماسي وجذاب</option>
         </select>
         
-        <button id="generateBtn" onclick="sendData()">جاري التفكير والتوليد الوردي... ⏳</button>
+        <button id="generateBtn" onclick="sendData()">توليد المحتوى الاحترافي ✨</button>
         
-        <div id="resultBox" class="result-box"></div>
+        <!-- حاوية عرض النتائج والأدوات المساعدة -->
+        <div id="resultContainer" style="display:none;">
+            <div id="resultBox" class="result-box" style="display:block;"></div>
+            <button class="copy-btn" onclick="copyText()">📋 نسخ الإعلان المولد بالكامل</button>
+        </div>
         
         <a href="/logout" class="logout-btn">تسجيل الخروج 🚪</a>
     </div>
@@ -50,9 +62,11 @@
     <script>
         async function sendData() {
             const idea = document.getElementById('userIdea').value;
+            const userLink = document.getElementById('userLink').value;
             const contentType = document.getElementById('contentType').value;
             const tone = document.getElementById('tone').value;
             const btn = document.getElementById('generateBtn');
+            const resultContainer = document.getElementById('resultContainer');
             const resultBox = document.getElementById('resultBox');
             
             if(!idea) {
@@ -62,16 +76,17 @@
             
             btn.disabled = true;
             btn.innerText = "جاري التوليد الآن... 🚀";
-            resultBox.style.display = "none";
+            resultContainer.style.display = "none";
+            
+            // دمج رابط المستخدم تلقائياً لتوصية الذكاء الاصطناعي بوضعه في مخرجات الإعلان
+            let linkPrompt = userLink ? `وفي نهاية الإعلان ضع نصاً يدعو الزبائن للشراء وضَعْ هذا الرابط الخاص بالمستخدم للتواصل معه: ${userLink}` : "";
             
             try {
                 const response = await fetch('/generate', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
-                        idea: idea,
+                        idea: `${idea}. ${linkPrompt}`,
                         contentType: contentType,
                         tone: tone
                     })
@@ -86,24 +101,39 @@
                 const data = await response.json();
                 
                 if(data.status === "success") {
+                    // إدراج نص الإعلان مع قسم تواصل الواتساب المباشر لأكرم بالأسفل بشكل ثابت
                     resultBox.innerHTML = `<div>${data.result}</div>
                     <div class="whatsapp-section">
-                        <p>هل تريد تطوير هذه الخطة أو الحصول على استشارة مخصصة؟ 💡</p>
-                        <a href="https://wa.meً أكرم، أريد الاستفسار بخصوص تطوير مشروعي التسويقي" target="_blank" class="whatsapp-link">
+                        <p>هل تريد تطوير هذه الخطة أو الحصول على استشارة مخصصة من صاحب المنصة؟ 💡</p>
+                        <a href="https://wa.me" class="whatsapp-link">
                             💬 تواصل معي عبر واتساب مباشرة
                         </a>
                     </div>`;
-                    resultBox.style.display = "block";
+                    resultContainer.style.display = "block";
                 } else {
                     alert("حدث خطأ: " + data.message);
                 }
             } catch (error) {
                 alert("حدث خطأ في الاتصال، يرجى المحاولة مجدداً!");
-                console.error(error);
             } finally {
                 btn.disabled = false;
                 btn.innerText = "توليد محتوى جديد ✨";
             }
+        }
+
+        // دالة النسخ الاحترافية المتوافقة تماماً مع المتصفحات وشاشات الهواتف
+        function copyText() {
+            // نأخذ النص فقط ونحذف منه أزرار التواصل وأكواد الـ HTML الإضافية قبل النسخ
+            const textToCopy = document.getElementById('resultBox').innerText;
+            
+            // فصل نص الإعلان الأساسي عن سطر استشارة الواتساب ليرتاح العميل عند اللصق
+            const cleanText = textToCopy.split("هل تريد تطوير هذه الخطة")[0].trim();
+
+            navigator.clipboard.writeText(cleanText).then(() => {
+                alert("تم نسخ إعلانك بنجاح! يمكنك الآن الذهاب ولصقه في منصاتك 📋");
+            }).catch(err => {
+                alert("فشل النسخ التلقائي، الرجاء تحديده ونسخه يدوياً.");
+            });
         }
     </script>
 </body>
