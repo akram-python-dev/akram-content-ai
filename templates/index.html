@@ -25,6 +25,14 @@
         <label>اكتب فكرتك هنا باختصار 📋:</label>
         <textarea id="userIdea" placeholder="مثال: أدوية بشرية، مستحضرات تجميل..."></textarea>
         
+        <label>نوع المحتوى أو الفكرة التسويقية 📝:</label>
+        <select id="contentType">
+            <option value="منشور إعلاني لوسائل التواصل">منشور إعلاني لوسائل التواصل</option>
+            <option value="سيناريو فيديو قصير (Reel/TikTok)">سيناريو فيديو قصير (Reel/TikTok)</option>
+            <option value="خطة تسويقية متكاملة">خطة تسويقية متكاملة</option>
+            <option value="رسالة بيع مباشرة للعملاء">رسالة بيع مباشرة للعملاء</option>
+        </select>
+
         <label>نبرة وأسلوب الكتابة ✨:</label>
         <select id="tone">
             <option value="إقناعي واحترافي للبيع">إقناعي واحترافي للبيع</option>
@@ -42,6 +50,7 @@
     <script>
         async function sendData() {
             const idea = document.getElementById('userIdea').value;
+            const contentType = document.getElementById('contentType').value;
             const tone = document.getElementById('tone').value;
             const btn = document.getElementById('generateBtn');
             const resultBox = document.getElementById('resultBox');
@@ -61,7 +70,11 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ idea: `اكتب لي محتوى تسويقي عن فكرة: (${idea}) مستخدماً أسلوب ونبرة: (${tone})` })
+                    body: JSON.stringify({ 
+                        idea: idea,
+                        contentType: contentType,
+                        tone: tone
+                    })
                 });
                 
                 if (response.status === 401) {
@@ -73,7 +86,6 @@
                 const data = await response.json();
                 
                 if(data.status === "success") {
-                    // عرض النتيجة وبأسفلها زر الواتساب الخاص بك بشكل تلقائي وثابت تواصل
                     resultBox.innerHTML = `<div>${data.result}</div>
                     <div class="whatsapp-section">
                         <p>هل تريد تطوير هذه الخطة أو الحصول على استشارة مخصصة؟ 💡</p>
