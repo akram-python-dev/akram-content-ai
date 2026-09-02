@@ -37,13 +37,11 @@ client = genai.Client(api_key=API_KEY)
 
 # ================= مسارات الموقع (ROUTES) =================
 
-# 1. مسار الصفحة الرئيسية (محمي - لا يفتح إلا بعد تسجيل الدخول)
 @app.route('/')
 @login_required
 def home():
     return render_template('index.html')
 
-# 2. مسار صفحة تسجيل حساب جديد
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -61,7 +59,6 @@ def register():
         
     return render_template('register.html')
 
-# 3. مسار صفحة تسجيل الدخول
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -78,27 +75,30 @@ def login():
             
     return render_template('login.html')
 
-# 4. مسار تسجيل الخروج
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('login'))
 
-# 5. مسار معالجة طلبات توليد المحتوى بالذكاء الاصطناعي (محمي)
 @app.route('/generate', methods=['POST'])
 @login_required
 def generate_content():
     try:
         data = request.get_json(silent=True) or {}
         user_idea = data.get('idea', '')
+        content_type = data.get('contentType', 'محتوى تسويقي')
+        tone = data.get('tone', 'إقناعي واحترافي للبيع')
         
-        # هنا يتم استدعاء كود جيميناي القديم الخاص بك مع الحفاظ على متغيراتك
+        # صياغة الطلب الذكي لـ Gemini بناءً على مدخلات المستخدم بالكامل
+        prompt = f"قم بإنشاء وتأليف ({content_type}) عن فكرة المشروع التالية: ({user_idea}). استخدم في الكتابة أسلوب ونبرة: ({tone})."
+        
         response = client.models.generate_content(
-            model='gemini-2.5-flash',
-            contents=user_idea,
+            model='gemini-3.6-flash',
+            contents=prompt,
         )
         
         return jsonify({"status": "success", "result": response.text})
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
+           
