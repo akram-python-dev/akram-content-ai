@@ -4,7 +4,29 @@ from google import genai
 import json
 
 app = Flask(__name__)
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 
+# إعدادات قاعدة البيانات
+app.config['SECRET_KEY'] = 'AkramFlowSuperSecretKey123'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+db = SQLAlchemy(app)
+
+# إعداد نظام إدارة تسجيل الدخول
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+# جدول المستخدمين في قاعدة البيانات
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(150), unique=True, nullable=False)
+    password = db.Column(db.String(150), nullable=False)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+    
 # استخدام مفتاح الـ API الحقيقي المباشر والفعال لمعالجة الطلبات
 API_KEY = os.environ.get("GEMINI_API_KEY", "AIzaSyD-YOUR-FREE-INTEGRATION-KEY")
 client = genai.Client(api_key=API_KEY)
