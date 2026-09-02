@@ -3,147 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AkramFlow AI | منصة توليد المحتوى الاحترافي</title>
-    <!-- ربط خط كايرو المميز والمحترف -->
-    <link href="https://googleapis.com" rel="stylesheet">
+    <title>AkramFlow AI - لوحة التحكم</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
-        body { background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 100%); color: #4a3b40; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .app-container { background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 24px; box-shadow: 0 12px 32px rgba(255, 182, 193, 0.3); width: 100%; max-width: 500px; border: 2px solid #ffb6c1; }
-        .header { text-align: center; margin-bottom: 25px; }
-        .header h1 { color: #d81b60; font-size: 28px; font-weight: 700; }
-        .header p { color: #886f77; font-size: 14px; margin-top: 8px; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; color: #880e4f; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ffccd5; border-radius: 12px; font-size: 15px; background: #fffafb; outline: none; transition: 0.3s; color: #4a3b40; }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #d81b60; background: #fff; box-shadow: 0 0 8px rgba(216, 27, 96, 0.2); }
-        .btn-generate { width: 100%; padding: 14px; background: linear-gradient(90deg, #ff4081 0%, #d81b60 100%); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 12px rgba(216, 27, 96, 0.3); }
-        .btn-generate:hover { background: linear-gradient(90deg, #d81b60 0%, #ad1457 100%); }
-        .result-box { margin-top: 25px; padding: 20px; background: #fffafb; border-radius: 12px; display: none; border: 1px solid #ffe4e1; border-right: 4px solid #ff4081; }
-        .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .result-title { font-weight: 700; color: #d81b60; }
-        .btn-copy { padding: 6px 14px; background: #ad1457; color: white; border: none; border-radius: 6px; font-size: 12px; cursor: pointer; }
-        .result-text { white-space: pre-line; line-height: 1.8; font-size: 15px; color: #4a3b40; }
-        .action-buttons-container { margin-top: 20px; display: none; flex-direction: column; gap: 10px; }
-        .btn-action { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; color: white; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 15px; transition: 0.3s; }
-        .btn-whatsapp { background-color: #25D366; }
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; text-align: center; }
+        .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 600px; margin: 0 auto; }
+        h1 { color: #800020; }
+        textarea { width: 100%; height: 100px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 16px; margin-bottom: 15px; }
+        select { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; }
+        button { width: 100%; padding: 12px; background-color: #800020; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; font-weight: bold; }
+        .result-box { background: #fafafa; border: 1px dashed #ccc; padding: 15px; margin-top: 20px; border-radius: 5px; text-align: right; white-space: pre-wrap; display: none; }
+        .whatsapp-section { margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; text-align: center; font-weight: bold; }
+        .whatsapp-link { display: inline-block; background-color: #25D366; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none; margin-top: 5px; }
+        .logout-btn { display: inline-block; margin-top: 20px; color: #ff3333; text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
-
-<div class="app-container">
-    <div class="header">
-        <h1>🌸 AkramFlow AI</h1>
+    <div class="container">
+        <h1>AkramFlow AI 🌺</h1>
         <p>حوّل أفكارك البسيطة إلى محتوى تجاري احترافي سيعود عليك بالمال</p>
-    </div>
-
-    <div class="form-group">
-        <label for="idea">اكتب فكرتك هنا باختصار 📋:</label>
-        <textarea id="idea" rows="3" placeholder="مثال: متجر لبيع الورود الطازجة والهدايا المخصصة..."></textarea>
-    </div>
-
-    <div class="form-group">
-        <label for="userLink">رابط متجرك أو صفحة التواصل الخاصة بك (اختياري) 🔗:</label>
-        <input type="text" id="userLink" placeholder="مثال: حسابك على انستغرام أو رقم واتساب...">
-    </div>
-
-    <div class="form-group">
-        <label for="contentType">نوع المحتوى المطلـوب 🏷️:</label>
-        <select id="contentType">
-            <option value="خطة عمل تسويقية متكاملة">خطة عمل تسويقية متكاملة</option>
-            <option value="مقال طويل احترافي">مقال طويل احترافي</option>
-            <option value="سيناريو فيديو إعلاني">سيناريو فيديو إعلاني لمواقع التواصل</option>
-            <option value="منشورات تسويقية للفيسبوك وانستغرام">منشورات تسويقية جذابة</option>
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label for="tone">نبرة وأسلوب الكتابة ✨:</label>
+        
+        <label>اكتب فكرتك هنا باختصار 📋:</label>
+        <textarea id="userIdea" placeholder="مثال: أدوية بشرية، مستحضرات تجميل..."></textarea>
+        
+        <label>نبرة وأسلوب الكتابة ✨:</label>
         <select id="tone">
-            <option value="إقناعي واحترافي">إقناعي واحترافي للبيع</option>
-            <option value="إبداعي وحماسي">إبداعي وحماسي للشباب</option>
-            <option value="رسمي وجاد">رسمي وجاد للشركات</option>
-            <option value="فكاهي وقريب من القلب">فكاهي وقريب من الناس</option>
+            <option value="إقناعي واحترافي للبيع">إقناعي واحترافي للبيع</option>
+            <option value="تعليمي ومفيد">تعليمي ومفيد</option>
+            <option value="حماسي وجذاب">حماسي وجذاب</option>
         </select>
+        
+        <button id="generateBtn" onclick="sendData()">جاري التفكير والتوليد الوردي... ⏳</button>
+        
+        <div id="resultBox" class="result-box"></div>
+        
+        <a href="/logout" class="logout-btn">تسجيل الخروج 🚪</a>
     </div>
 
-    <button class="btn-generate" onclick="generateContent()">توليد المحتوى الذكي الوردي 🚀</button>
-
-    <div class="result-box" id="resultBox">
-        <div class="result-header">
-            <span class="result-title">المحتوى الاحترافي المولد ✨:</span>
-            <button class="btn-copy" onclick="copyText()">نسخ النص 📋</button>
-        </div>
-        <div class="result-text" id="resultText"></div>
-    </div>
-</div>
-
-<script>
-    async function generateContent() {
-        const idea = document.getElementById('idea').value;
-        const userLink = document.getElementById('userLink').value;
-        const type = document.getElementById('contentType').value;
-        const tone = document.getElementById('tone').value;
-        const btn = document.querySelector('.btn-generate');
-        const resultBox = document.getElementById('resultBox');
-        const resultText = document.getElementById('resultText');
-
-        if (!idea) {
-            alert('الرجاء كتابة الفكرة أولاً يا صديقي!');
-            return;
-        }
-
-        btn.innerText = 'جاري التفكير والتوليد الوردي... ⏳🌸';
-        btn.disabled = true;
-        resultText.innerText = '';
-        resultBox.style.display = 'none';
-
-        try {
-            // توجيه الطلب بشكل نسبي ومباشر للسيرفر الحالي المفتوح دون تحديد اسم قديم
-            const response = await fetch('/generate', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ idea, userLink, type, tone })
-            });
-
-            if (!response.ok) { throw new Error('فشل الاتصال'); }
-
-            resultBox.style.display = 'block';
-            resultBox.scrollIntoView({ behavior: 'smooth' });
-
-            const reader = response.body.getReader();
-            const decoder = new TextDecoder();
-            let currentText = '';
+    <script>
+        async function sendData() {
+            const idea = document.getElementById('userIdea').value;
+            const tone = document.getElementById('tone').value;
+            const btn = document.getElementById('generateBtn');
+            const resultBox = document.getElementById('resultBox');
             
-            while (true) {
-                const { value, done } = await reader.read();
-                if (done) break;
-                
-                const chunk = decoder.decode(value, { stream: true });
-                currentText += chunk;
-                resultText.innerText = currentText;
+            if(!idea) {
+                alert("الرجاء كتابة الفكرة أولاً!");
+                return;
             }
-        } catch (error) {
-            alert('حدث خطأ في الاتصال، يرجى المحاولة مجدداً!');
-        } finally {
-            btn.innerText = 'توليد المحتوى الذكي الوردي 🚀';
-            btn.disabled = false;
+            
+            btn.disabled = true;
+            btn.innerText = "جاري التوليد الآن... 🚀";
+            resultBox.style.display = "none";
+            
+            try {
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ idea: `اكتب لي محتوى تسويقي عن فكرة: (${idea}) مستخدماً أسلوب ونبرة: (${tone})` })
+                });
+                
+                if (response.status === 401) {
+                    alert("انتهت الجلسة أو لم تقم بتسجيل الدخول، سيتم توجيهك لصفحة الدخول.");
+                    window.location.href = "/login";
+                    return;
+                }
+                
+                const data = await response.json();
+                
+                if(data.status === "success") {
+                    // عرض النتيجة وبأسفلها زر الواتساب الخاص بك بشكل تلقائي وثابت تواصل
+                    resultBox.innerHTML = `<div>${data.result}</div>
+                    <div class="whatsapp-section">
+                        <p>هل تريد تطوير هذه الخطة أو الحصول على استشارة مخصصة؟ 💡</p>
+                        <a href="https://wa.meً أكرم، أريد الاستفسار بخصوص تطوير مشروعي التسويقي" target="_blank" class="whatsapp-link">
+                            💬 تواصل معي عبر واتساب مباشرة
+                        </a>
+                    </div>`;
+                    resultBox.style.display = "block";
+                } else {
+                    alert("حدث خطأ: " + data.message);
+                }
+            } catch (error) {
+                alert("حدث خطأ في الاتصال، يرجى المحاولة مجدداً!");
+                console.error(error);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "توليد محتوى جديد ✨";
+            }
         }
-    }
-
-    function copyText() {
-        const text = document.getElementById('resultText').innerText;
-        navigator.clipboard.writeText(text).then(() => {
-            alert('تم نسخ النص بنجاح! 🎉');
-        });
-    }
-</script>
-
-<div class="action-buttons-container" id="actionButtons" style="display: none; margin-top: 20px;">
-    <a href="https://wa.me" target="_blank" class="btn-action btn-whatsapp" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; color: white; background-color: #25D366; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 15px;">
-        💬 تواصل معنا مباشرة عبر واتساب وابدأ رحلة الصدارة
-    </a>
-</div>
-
+    </script>
 </body>
 </html>
